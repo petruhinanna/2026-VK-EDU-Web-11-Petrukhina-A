@@ -22,7 +22,7 @@
 
 - `public/` — HTML-страницы
 - `public/static/css/` — стили
-- `public/static/img/` — изображения, аватары, иконки
+- `public/static/img/` — изображения, аватары
 
 ## Использованные технологии
 
