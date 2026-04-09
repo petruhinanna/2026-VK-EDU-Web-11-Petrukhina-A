@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поясняем на котятах</title>
+    <link rel="stylesheet" href="static/css/ask.css">
+</head>
+<body>
+<header class="header">
+    <div class="page container_header">
+        <h1 class="logo">Поясняем на котятах</h1>
+
+        <div class="search_box">
+            <form>
+                <input type="search" name="text" class="search" placeholder="Какой у вас возник вопрос?">
+                <input type="submit" class="submit" value="Найти!">
+            </form>
+        </div>
+
+        <div class="container_user">
+            <div class="img_avatar">
+                <img src="static/img/e_cat.jpg" alt="">
+            </div>
+
+            <div class="profil">
+                <p class="user_name">Кот Василий</p>
+                <div class="user_links">
+                    <a href="#">Настройки</a>
+                    <a href="#">Авторизоваться</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="main">
+    <div class="container_main">
+    <div class="ask_page">
+        <div class="H1">
+            <h2 class="new_quest">Новый вопрос</h2>
+        </div>
+
+        <form class="ask_form">
+            <div class="form_row">
+                <label for="title">Заголовок</label>
+                <input
+                    id="title"
+                    type="text"
+                    name="title"
+                    value="Почему британские коты такие серьёзные?"
+                >
+            </div>
+
+            <div class="form_row">
+                <label for="text">Текст</label>
+                <textarea id="text" name="text">Мой британский кот всё время смотрит на меня так, будто я задолжал ему корм.
+Это особенность породы или он просто осуждает меня?</textarea>
+            </div>
+
+            <div class="form_row">
+                <label for="tags">Теги</label>
+                <input
+                    id="tags"
+                    type="text"
+                    name="tags"
+                    value="британцы, коты, характер"
+                >
+            </div>
+
+            <div class="form_actions">
+                <button type="submit">Спросить!</button>
+            </div>
+        </form>
+    </div>
+
+    </div>
+
+    <aside class="sidebar">
+        <section class="box">
+            <h2>Популярные тэги</h2>
+
+            <div class="tags">
+                <a class="tag small black" href="#">perl</a>
+                <a class="tag big red" href="#">python</a>
+                <a class="tag black" href="#">TechnoPark</a>
+                <a class="tag big red" href="#">MySQL</a>
+                <a class="tag big green" href="#">django</a>
+                <a class="tag black" href="#">Mail.Ru</a>
+                <a class="tag black" href="#">Voloshin</a>
+                <a class="tag orange" href="#">Firefox</a>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Топ пользователей</h2>
+
+            <div class="members">
+                <a href="#">Mr. Freeman</a>
+                <a href="#">Dr. House</a>
+                <a href="#">Bender</a>
+                <a href="#">Queen Victoria</a>
+                <a href="#">V. Pupkin</a>
+            </div>
+        </section>
+    </aside>
+</div>
+
+<footer class="footer">
+    <p>Задавай вопросы. Получай ответы. И не забывай про котиков.</p>
+</footer>
+
+</body>
+</html>

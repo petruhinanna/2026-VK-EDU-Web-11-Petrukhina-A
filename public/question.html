@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поясняем на котятах</title>
+    <link rel="stylesheet" href="static/css/question.css">
+</head>
+<body>
+<header class="header">
+    <div class="container_header">
+        <h1 class="logo">Поясняем на котятах</h1>
+
+        <div class="search_box">
+            <form>
+                <input type="search" name="text" class="search" placeholder=" Какой у вас возник вопрос?">
+                <input type="submit" class="submit" value="Найти!">
+            </form>
+        </div>
+
+        <div class="container_user">
+            <div class="profil">
+                <div class="user_links">
+                    <a href="#">Настройки</a>
+                    <a href="#">Авторизоваться</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="main">
+    <div class="container_main">
+
+        <div class="question_page">
+            <div class="question_block">
+                <div class="container_img_likes">
+                    <div class="img_avatar">
+                        <img src="static/img/brit_cat.jpg">
+                    </div>
+
+                    <div class="likes">
+                        <span class="likes_count">5</span>
+                        <div class="likes_buttons">
+                            <button>▲</button>
+                            <button>▼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question_content">
+                    <h2 class="question_title">Почему британские коты такие серьёзные?</h2>
+                    <p>
+                        Мой британский кот всё время смотрит так, будто я опять купил не тот корм.
+                        Он мало мяукает, почти не бегает по квартире и выглядит очень важным.
+                        Это особенность породы или просто характер?
+                    </p>
+
+                    <div class="answers_tegs">
+                        <span class="tags_label">Теги:</span>
+                        <a class="question_tag" href="#">британцы</a>
+                        <a class="question_tag" href="#">кошки</a>
+                        <a class="question_tag" href="#">характер</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="answer_block">
+                <div class="container_img_likes">
+                    <div class="img_avatar">
+                        <img src="static/img/e_cat.jpg">
+                    </div>
+
+                    <div class="likes">
+                        <span class="likes_count">5</span>
+                        <div class="likes_buttons">
+                            <button>▲</button>
+                            <button>▼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="answer_content">
+                    <p>
+                        У британских котов часто действительно спокойный и немного
+                        “аристократичный” характер. Они не всегда любят лишнюю суету,
+                        не бегают без причины и иногда выглядят так, будто оценивают
+                        все решения хозяина.
+                    </p>
+
+                    <label class="correct_label">
+                        <input type="checkbox" checked>
+                        <span>Правильный ответ</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="answer_block">
+                <div class="container_img_likes">
+                    <div class="img_avatar">
+                        <img src="static/img/si_cat.jfif">
+                    </div>
+
+                    <div class="likes">
+                        <span class="likes_count">3</span>
+                        <div class="likes_buttons">
+                            <button>▲</button>
+                            <button>▼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="answer_content">
+                    <p>
+                        Не все британцы такие. Многое зависит от воспитания, привычек
+                        и того, как кот привык общаться с человеком. Но серьёзная
+                        морда у них, конечно, почти фирменная.
+                    </p>
+
+                    <label class="correct_label">
+                        <input type="checkbox">
+                        <span>Правильный ответ</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="answer_form_block">
+                <form class="answer_form">
+                    <textarea name="answer" placeholder="Введите ваш ответ..."></textarea>
+                    <button type="submit">Ответить</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <aside class="sidebar">
+        <section class="box">
+            <h2>Популярные тэги</h2>
+
+            <div class="tags">
+                <a class="tag small black" href="#">perl</a>
+                <a class="tag big red" href="#">python</a>
+                <a class="tag black" href="#">TechnoPark</a>
+                <a class="tag big red" href="#">MySQL</a>
+                <a class="tag big green" href="#">django</a>
+                <a class="tag black" href="#">Mail.Ru</a>
+                <a class="tag black" href="#">Voloshin</a>
+                <a class="tag orange" href="#">Firefox</a>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Топ пользователей</h2>
+
+            <div class="members">
+                <a href="#">Mr. Freeman</a>
+                <a href="#">Dr. House</a>
+                <a href="#">Bender</a>
+                <a href="#">Queen Victoria</a>
+                <a href="#">V. Pupkin</a>
+            </div>
+        </section>
+    </aside>
+</div>
+
+<footer class="footer">
+    <p>Задавай вопросы. Получай ответы. И не забывай про котиков.</p>
+</footer>
+
+</body>
+</html>

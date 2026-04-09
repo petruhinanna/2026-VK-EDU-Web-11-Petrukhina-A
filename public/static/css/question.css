@@ -1,0 +1,257 @@
+body { font-family: sans-serif; }
+
+.header {
+    border-bottom: 4px solid green;
+    padding: 20px 20px;
+    margin-bottom: 20px;
+}
+
+input.search {
+    width: 250px;
+    height: auto;
+    background-color: #c1c1c1;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 15px;
+    padding-left: 15px;
+}
+
+input.submit {
+    background-color: #4b9e40;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 15px;
+    width: 80px;
+    height: auto;
+}
+
+.container_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.H1 {
+    display: flex;
+    align-items: center;
+}
+
+.container_user {
+    display: flex;
+}
+
+.img_avatar {
+    width: 70px;
+    height: 70px;
+    border: 2px solid black;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.img_avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.user_name {
+    margin: 5px;
+    padding: 5px;
+}
+
+.user_links {
+    color: #3b6ea5;
+    font-weight: bold;
+    margin: 5px;
+    padding: 5px;
+}
+
+.main {
+    display: flex;
+    align-items: flex-start;
+}
+
+.container_main {
+    flex: 1;
+    padding: 5px;
+    margin: 5px;
+    padding-bottom: 90px;
+}
+
+.container_img_likes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    margin-right: 15px;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.likes_buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.likes_count {
+    font-size: 22px;
+}
+
+.answers_tegs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.answers_link, .tags_label, .question_tag {
+    padding: 2px;
+    margin: 2px;
+}
+
+.question_page {
+    padding: 10px;
+}
+
+.question_block {
+    display: flex;
+    border-bottom: 2px solid green;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.question_content {
+    flex: 1;
+}
+
+.question_title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 42px;
+    font-weight: normal;
+}
+
+.answer_block {
+    display: flex;
+    border: 3px solid green;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 15px;
+}
+
+.answer_content {
+    flex: 1;
+}
+
+.answer_content p {
+    margin-top: 0;
+    font-size: 24px;
+    line-height: 1.35;
+}
+
+.correct_label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+}
+
+.answer_form_block {
+    border-top: 2px solid green;
+    margin: 25px 15px 0;
+    padding-top: 20px;
+}
+
+.answer_form textarea {
+    width: 100%;
+    min-height: 160px;
+    border: 3px solid green;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 22px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.answer_form button {
+    border: 3px solid green;
+    border-radius: 12px;
+    background: white;
+    padding: 10px 18px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.new_quest {
+    padding: 15px;
+    margin: 5px;
+}
+
+.tags {
+    text-align: left;
+}
+
+.sidebar {
+    width: 350px;
+    padding: 2px;
+    background: #eee;
+    height: auto;
+}
+
+.box {
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 38px;
+    font-weight: normal;
+}
+
+.small { font-size: 18px; }
+.big { font-size: 32px; }
+
+.red { color: #d33; }
+.green { color: #4caf50; }
+.orange { color: #f5a623; }
+.black { color: #222; }
+
+.members a {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 30px;
+    color: #3b6ea5;
+    text-decoration: underline;
+}
+
+.tag {
+    display: inline-block;
+    vertical-align: baseline;
+    text-decoration: none;
+
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 3px solid green;
+    background: linear-gradient(to right, #f5f5f5, #ececec);
+    text-align: center;
+    font-size: 16px;
+    color: #2f2f2f;
+}

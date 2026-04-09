@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поясняем на котятах</title>
+    <link rel="stylesheet" href="static/css/profile.css">
+</head>
+<body>
+<header class="header">
+    <div class="container_header">
+    <h1 class="logo">Поясняем на котятах</h1>
+    <div class="search_box">
+        <form>
+            <input type="search" name="text" class="search" placeholder=" Какой у вас возник вопрос?" >
+            <input type="submit" class="submit" value="Найти!">
+        </form>
+        </div>
+    <div class="container_user">
+     <div class="img_avatar">
+    <img src="static/img/e_cat.jpg" >
+    </div>
+     <div class="profil">
+       <p class="user_name">Кот Василий </p>
+        <div class="user_links">
+            <a href="#"> Настройки</a>
+            <a href="#"> Авторизоваться</a>
+        </div>
+     </div>
+
+    </div>
+    </div>
+
+</header>
+<div class="main">
+    <div class="container_main">
+    <div class="settings_page">
+        <div class="H1">
+            <h2 class="new_quest">Настройки: Кот Василий</h2>
+        </div>
+
+        <form class="settings_form">
+            <div class="settings_row">
+                <label for="login">Логин</label>
+                <input id="login" type="text" name="login" value="kot_vasiliy">
+            </div>
+
+            <div class="settings_row">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" value="vasiliy@mur.ru">
+            </div>
+
+            <div class="settings_row">
+                <label for="nickname">Никнейм</label>
+                <input id="nickname" type="text" name="nickname" value="Кот Василий">
+            </div>
+
+            <div class="settings_row avatar_row">
+                <label>Аватар</label>
+
+                <div class="avatar_settings_block">
+                    <div class="settings_avatar_preview">
+                        <img src="static/img/e_cat.jpg" alt="">
+                    </div>
+
+                    <input class="file_input" type="file" name="avatar">
+                </div>
+            </div>
+
+            <div class="settings_actions">
+                <button type="submit">Сохранить</button>
+            </div>
+        </form>
+    </div>
+    </div>
+
+    <aside class="sidebar">
+        <section class="box">
+            <h2>Популярные тэги</h2>
+
+            <div class="tags">
+                <a class="tag small black" href="#">perl</a>
+                <a class="tag big red" href="#">python</a>
+                <a class="tag black" href="#">TechnoPark</a>
+                <a class="tag big red" href="#">MySQL</a>
+                <a class="tag big green" href="#">django</a>
+                <a class="tag black" href="#">Mail.Ru</a>
+                <a class="tag black" href="#">Voloshin</a>
+                <a class="tag orange" href="#">Firefox</a>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Топ пользователей</h2>
+
+            <div class="members">
+                <a href="#">Mr. Freeman</a>
+                <a href="#">Dr. House</a>
+                <a href="#">Bender</a>
+                <a href="#">Queen Victoria</a>
+                <a href="#">V. Pupkin</a>
+            </div>
+        </section>
+    </aside>
+</div>
+
+<footer class="footer">
+<p>Задавай вопросы. Получай ответы. И не забывай про котиков.</p>
+</footer>
+
+</body>
+</html>
