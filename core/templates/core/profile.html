@@ -1,0 +1,68 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="form_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Настройки профиля</h2>
+    </div>
+
+    <form class="user_form">
+
+        <div class="profile_avatar">
+            <div class="img_avatar">
+                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="login">Логин</label>
+
+            <div class="form_field">
+                <input
+                    id="login"
+                    type="text"
+                    name="login"
+                    value="Кот Василий"
+                >
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="email">Email</label>
+
+            <div class="form_field">
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="cat@example.com"
+                >
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="avatar">Аватар</label>
+
+            <div class="form_field">
+                <input
+                    id="avatar"
+                    type="file"
+                    name="avatar"
+                >
+            </div>
+        </div>
+
+
+
+        <div class="form_actions">
+            <button type="submit">Сохранить</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
