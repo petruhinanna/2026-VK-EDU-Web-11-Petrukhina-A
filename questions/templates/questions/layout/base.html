@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поясняем на котятах</title>
+    <link rel="stylesheet" href="{% static 'questions/css/main.css' %}">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container_header">
+
+        <h1 class="logo">
+            <a href="{% url 'questions:index' %}">Поясняем на котятах</a>
+        </h1>
+
+        <div class="search_box">
+            <form>
+                <input
+                    type="search"
+                    name="text"
+                    class="search"
+                    placeholder="Какой у вас возник вопрос?"
+                >
+                <input type="submit" class="submit" value="Найти!">
+            </form>
+        </div>
+
+        <a class="ask_link" href="{% url 'questions:ask' %}">Задать вопрос</a>
+
+        <div class="container_user">
+
+            <div class="img_avatar">
+                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+            </div>
+
+            <div class="profil">
+                <p class="user_name">Кот Василий</p>
+
+                <div class="user_links">
+                    <a href="{% url 'core:profile' %}">Настройки</a>
+                    <a href="{% url 'core:login' %}">Авторизоваться</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</header>
+
+<main class="main">
+    <div class="container_main">
+
+        <section class="content">
+            {% block content %}
+            {% endblock %}
+        </section>
+
+        <aside class="sidebar">
+
+            <section class="box">
+                <h2>Популярные тэги</h2>
+
+                <div class="tags">
+                    <a class="tag small black" href="{% url 'questions:tag' 'perl' %}">perl</a>
+                    <a class="tag big red" href="{% url 'questions:tag' 'python' %}">python</a>
+                    <a class="tag black" href="{% url 'questions:tag' 'TechnoPark' %}">TechnoPark</a>
+                    <a class="tag big red" href="{% url 'questions:tag' 'MySQL' %}">MySQL</a>
+                    <a class="tag big green" href="{% url 'questions:tag' 'django' %}">django</a>
+                    <a class="tag black" href="{% url 'questions:tag' 'Mail.Ru' %}">Mail.Ru</a>
+                    <a class="tag black" href="{% url 'questions:tag' 'Voloshin' %}">Voloshin</a>
+                    <a class="tag orange" href="{% url 'questions:tag' 'Firefox' %}">Firefox</a>
+                </div>
+            </section>
+
+            <section class="box">
+                <h2>Топ пользователей</h2>
+
+                <div class="members">
+                    <a href="#">Mr. Freeman</a>
+                    <a href="#">Dr. House</a>
+                    <a href="#">Bender</a>
+                    <a href="#">Queen Victoria</a>
+                    <a href="#">V. Pupkin</a>
+                </div>
+            </section>
+
+        </aside>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Задавай вопросы. Получай ответы. И не забывай про котиков.</p>
+</footer>
+
+</body>
+</html>

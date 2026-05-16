@@ -1,0 +1,63 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="ask_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Новый вопрос</h2>
+    </div>
+
+    <form class="ask_form">
+
+        <div class="form_row">
+            <label for="title">Заголовок</label>
+
+            <div class="form_field">
+                <input
+                    id="title"
+                    type="text"
+                    name="title"
+                    placeholder="Например: Почему британские коты такие серьёзные?"
+                >
+
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="text">Текст</label>
+
+            <div class="form_field">
+                <textarea
+                    id="text"
+                    name="text"
+                    rows="8"
+                    placeholder="Опишите вопрос подробнее"
+                ></textarea>
+
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="tags">Теги</label>
+
+            <div class="form_field">
+                <input
+                    id="tags"
+                    type="text"
+                    name="tags"
+                    placeholder="например: django, python, коты"
+                >
+
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <button type="submit">Спросить!</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

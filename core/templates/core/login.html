@@ -1,0 +1,56 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="form_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Вход</h2>
+    </div>
+
+    <form class="user_form">
+
+        <div class="form_row">
+            <label for="login">Логин</label>
+
+            <div class="form_field">
+                <input
+                    id="login"
+                    type="text"
+                    name="login"
+                    placeholder="Введите логин"
+                >
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="password">Пароль</label>
+
+            <div class="form_field">
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Введите пароль"
+                >
+            </div>
+        </div>
+
+        <div class="form_error">
+            Вы ввели неправильный логин или пароль
+        </div>
+
+        <div class="form_actions">
+            <button type="submit">Войти</button>
+        </div>
+
+    </form>
+
+    <p class="form_link">
+        Нет аккаунта?
+        <a href="{% url 'core:signup' %}">Зарегистрироваться</a>
+    </p>
+
+</div>
+
+{% endblock %}

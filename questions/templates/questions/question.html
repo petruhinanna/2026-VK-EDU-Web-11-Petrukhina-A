@@ -1,0 +1,98 @@
+{% extends 'questions/layout/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="question_page">
+
+    <div class="question_block">
+
+        <div class="container_img_likes">
+            <div class="img_avatar">
+                <img src="{% static 'questions/img/brit_cat.jpg' %}" alt="Аватар вопроса">
+            </div>
+
+            <div class="likes">
+                <span class="likes_count">{{ question.likes }}</span>
+
+                <div class="likes_buttons">
+                    <button type="button">▲</button>
+                    <button type="button">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="question_content">
+            <h2 class="question_title">{{ question.title }}</h2>
+
+            <p>
+                {{ question.text }}
+            </p>
+
+            <div class="answers_tegs">
+                <span class="tags_label">Теги:</span>
+
+                <a class="question_tag" href="{% url 'questions:tag' 'british-cats' %}">британцы</a>
+                <a class="question_tag" href="{% url 'questions:tag' 'cats' %}">кошки</a>
+                <a class="question_tag" href="{% url 'questions:tag' 'character' %}">характер</a>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="answers_title">Ответы</h2>
+
+    {% for answer in answers %}
+
+    <div class="answer_block">
+
+        <div class="container_img_likes">
+            <div class="img_avatar">
+                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар ответа">
+            </div>
+
+            <div class="likes">
+                <span class="likes_count">{{ answer.likes }}</span>
+
+                <div class="likes_buttons">
+                    <button type="button">▲</button>
+                    <button type="button">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="answer_content">
+            <p>
+                {{ answer.text }}
+            </p>
+
+            <label class="correct_label">
+                <input type="checkbox" {% if answer.is_correct %}checked{% endif %}>
+                <span>Правильный ответ</span>
+            </label>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+{% include 'questions/includes/pagination.html' %}
+
+    <div class="answer_form_block">
+        <h2>Ваш ответ</h2>
+
+        <form class="answer_form">
+            <textarea
+                name="answer"
+                rows="6"
+                placeholder="Введите ваш ответ..."
+            ></textarea>
+
+            <button type="submit">Ответить</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
