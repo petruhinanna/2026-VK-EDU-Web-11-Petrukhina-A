@@ -1,0 +1,48 @@
+{% load static %}
+
+<div class="quest1">
+
+    <div class="container_img_likes">
+
+        <div class="img_avatar">
+            <img src="{% static 'questions/img/brit_cat.jpg' %}" alt="Аватар вопроса">
+        </div>
+
+        <div class="likes">
+            <span class="likes_count">{{ question.likes }}</span>
+
+            <div class="likes_buttons">
+                <button type="button">▲</button>
+                <button type="button">▼</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="quest">
+        <h1>
+            <a href="{{ question.get_absolute_url }}">
+                {{ question.title }}
+            </a>
+        </h1>
+
+        <p>{{ question.text }}</p>
+
+        <div class="answers_tegs">
+            <a class="answers_link" href="{{ question.get_absolute_url }}">
+                answer ({{ question.answers_count }})
+            </a>
+
+            <span class="tags_label">Tags:</span>
+
+            {% for tag in question.tags.all %}
+                <a class="question_tag" href="{% url 'questions:tag' tag.slug %}">
+                    {{ tag.name }}
+                </a>
+            {% empty %}
+                <span class="question_tag">без тегов</span>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
