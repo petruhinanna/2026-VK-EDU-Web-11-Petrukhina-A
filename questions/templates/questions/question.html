@@ -32,9 +32,13 @@
             <div class="answers_tegs">
                 <span class="tags_label">Теги:</span>
 
-                <a class="question_tag" href="{% url 'questions:tag' 'british-cats' %}">британцы</a>
-                <a class="question_tag" href="{% url 'questions:tag' 'cats' %}">кошки</a>
-                <a class="question_tag" href="{% url 'questions:tag' 'character' %}">характер</a>
+                {% for tag in question.tags.all %}
+                    <a class="question_tag" href="{% url 'questions:tag' tag.slug %}">
+                        {{ tag.name }}
+                    </a>
+                {% empty %}
+                    <span class="question_tag">без тегов</span>
+                {% endfor %}
             </div>
         </div>
 
@@ -74,10 +78,13 @@
 
     </div>
 
+    {% empty %}
+
+    <p class="empty_text">Пока нет ни одного ответа к этому вопросу.</p>
+
     {% endfor %}
 
-
-{% include 'questions/includes/pagination.html' %}
+    {% include 'questions/includes/pagination.html' %}
 
     <div class="answer_form_block">
         <h2>Ваш ответ</h2>

@@ -21,7 +21,7 @@
 
     <div class="quest">
         <h1>
-            <a href="{% url 'questions:question' question.id %}">
+            <a href="{{ question.get_absolute_url }}">
                 {{ question.title }}
             </a>
         </h1>
@@ -29,14 +29,19 @@
         <p>{{ question.text }}</p>
 
         <div class="answers_tegs">
-            <a class="answers_link" href="{% url 'questions:question' question.id %}">
+            <a class="answers_link" href="{{ question.get_absolute_url }}">
                 answer ({{ question.answers_count }})
             </a>
 
             <span class="tags_label">Tags:</span>
 
-            <a class="question_tag" href="{% url 'questions:tag' 'british-cats' %}">британцы</a>
-            <a class="question_tag" href="{% url 'questions:tag' 'cats' %}">кошки</a>
+            {% for tag in question.tags.all %}
+                <a class="question_tag" href="{% url 'questions:tag' tag.slug %}">
+                    {{ tag.name }}
+                </a>
+            {% empty %}
+                <span class="question_tag">без тегов</span>
+            {% endfor %}
         </div>
     </div>
 

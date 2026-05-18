@@ -1,5 +1,4 @@
 {% extends 'questions/layout/base.html' %}
-{% load static %}
 
 {% block content %}
 
@@ -11,6 +10,10 @@
 {% for question in questions %}
 
     {% include 'questions/includes/question_card.html' %}
+
+{% empty %}
+
+    <p class="empty_text">Пока нет ни одного вопроса.</p>
 
 {% endfor %}
 
