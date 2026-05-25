@@ -1,0 +1,63 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="form_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Вход</h2>
+    </div>
+
+    <form class="user_form" method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form_errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="form_row">
+            <label for="{{ form.username.id_for_label }}">Логин</label>
+
+            <div class="form_field">
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="field_errors">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.password.id_for_label }}">Пароль</label>
+
+            <div class="form_field">
+                {{ form.password }}
+
+                {% if form.password.errors %}
+                    <div class="field_errors">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <button type="submit">Войти</button>
+        </div>
+
+    </form>
+
+    <p class="form_link">
+        Нет аккаунта?
+        <a href="{% url 'core:signup' %}">Зарегистрироваться</a>
+    </p>
+
+</div>
+
+{% endblock %}
