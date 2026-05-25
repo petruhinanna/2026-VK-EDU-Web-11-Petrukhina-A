@@ -12,21 +12,29 @@
             <span class="likes_count">{{ question.likes }}</span>
 
             <div class="likes_buttons">
-                <button type="button">▲</button>
-                <button type="button">▼</button>
+                {% if user.is_authenticated %}
+                    <button type="button">▲</button>
+                    <button type="button">▼</button>
+                {% else %}
+                    <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▲</button>
+                    <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▼</button>
+                {% endif %}
             </div>
         </div>
 
     </div>
 
     <div class="quest">
-        <h1>
+
+        <h1 class="question_card_title">
             <a href="{{ question.get_absolute_url }}">
                 {{ question.title }}
             </a>
         </h1>
 
-        <p>{{ question.text }}</p>
+        <p class="question_card_text">
+            {{ question.text }}
+        </p>
 
         <div class="answers_tegs">
             <a class="answers_link" href="{{ question.get_absolute_url }}">
@@ -43,6 +51,7 @@
                 <span class="question_tag">без тегов</span>
             {% endfor %}
         </div>
+
     </div>
 
 </div>

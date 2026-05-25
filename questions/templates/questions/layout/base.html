@@ -30,22 +30,55 @@
             </form>
         </div>
 
-        <a class="ask_link" href="{% url 'questions:ask' %}">Задать вопрос</a>
+        {% if user.is_authenticated %}
+            <a class="ask_link" href="{% url 'questions:ask' %}">Задать вопрос</a>
+        {% else %}
+            <a
+                class="ask_link"
+                href="{% url 'core:login' %}?next={% url 'questions:ask' %}"
+                title="Войдите, чтобы задать вопрос"
+            >
+                Задать вопрос
+            </a>
+        {% endif %}
 
         <div class="container_user">
 
-            <div class="img_avatar">
-                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
-            </div>
+            {% if user.is_authenticated %}
 
-            <div class="profil">
-                <p class="user_name">Кот Василий</p>
-
-                <div class="user_links">
-                    <a href="{% url 'core:profile' %}">Настройки</a>
-                    <a href="{% url 'core:login' %}">Авторизоваться</a>
+                <div class="img_avatar">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="Аватар пользователя">
+                    {% else %}
+                        <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+                    {% endif %}
                 </div>
-            </div>
+
+                <div class="profil">
+                    <p class="user_name">{{ user.username }}</p>
+
+                    <div class="user_links">
+                        <a href="{% url 'core:profile' %}">Настройки</a>
+                        <a href="{% url 'core:logout' %}">Выйти</a>
+                    </div>
+                </div>
+
+            {% else %}
+
+                <div class="img_avatar">
+                    <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+                </div>
+
+                <div class="profil">
+                    <p class="user_name">Гость</p>
+
+                    <div class="user_links">
+                        <a href="{% url 'core:login' %}">Войти</a>
+                        <a href="{% url 'core:signup' %}">Зарегистрироваться</a>
+                    </div>
+                </div>
+
+            {% endif %}
 
         </div>
 
@@ -66,14 +99,13 @@
                 <h2>Популярные тэги</h2>
 
                 <div class="tags">
-                    <a class="tag small black" href="{% url 'questions:tag' 'perl' %}">perl</a>
-                    <a class="tag big red" href="{% url 'questions:tag' 'python' %}">python</a>
-                    <a class="tag black" href="{% url 'questions:tag' 'TechnoPark' %}">TechnoPark</a>
-                    <a class="tag big red" href="{% url 'questions:tag' 'MySQL' %}">MySQL</a>
-                    <a class="tag big green" href="{% url 'questions:tag' 'django' %}">django</a>
-                    <a class="tag black" href="{% url 'questions:tag' 'Mail.Ru' %}">Mail.Ru</a>
-                    <a class="tag black" href="{% url 'questions:tag' 'Voloshin' %}">Voloshin</a>
-                    <a class="tag orange" href="{% url 'questions:tag' 'Firefox' %}">Firefox</a>
+                    {% for tag in popular_tags %}
+                        <a class="tag black" href="{% url 'questions:tag' tag.slug %}">
+                            {{ tag.name }}
+                        </a>
+                    {% empty %}
+                        <span class="empty_sidebar_text">Тегов пока нет</span>
+                    {% endfor %}
                 </div>
             </section>
 
@@ -81,11 +113,13 @@
                 <h2>Топ пользователей</h2>
 
                 <div class="members">
-                    <a href="#">Mr. Freeman</a>
-                    <a href="#">Dr. House</a>
-                    <a href="#">Bender</a>
-                    <a href="#">Queen Victoria</a>
-                    <a href="#">V. Pupkin</a>
+                    {% for top_user in top_users %}
+                        <a href="#">
+                            {{ top_user.username }}
+                        </a>
+                    {% empty %}
+                        <span class="empty_sidebar_text">Пользователей пока нет</span>
+                    {% endfor %}
                 </div>
             </section>
 

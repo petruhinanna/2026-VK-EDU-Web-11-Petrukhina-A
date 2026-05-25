@@ -1,6 +1,4 @@
-"""
-Django settings for application project.
-"""
+
 
 from pathlib import Path
 import os
@@ -92,6 +90,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'questions.context_processors.sidebar_data',
             ],
         },
     },

@@ -9,53 +9,66 @@
         <h2 class="new_quest">Настройки профиля</h2>
     </div>
 
-    <form class="user_form">
+    <form class="user_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form_errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
 
         <div class="profile_avatar">
             <div class="img_avatar">
-                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+                {% if user.is_authenticated and user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="Аватар пользователя">
+                {% else %}
+                    <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар пользователя">
+                {% endif %}
             </div>
         </div>
 
         <div class="form_row">
-            <label for="login">Логин</label>
+            <label for="{{ form.username.id_for_label }}">Логин</label>
 
             <div class="form_field">
-                <input
-                    id="login"
-                    type="text"
-                    name="login"
-                    value="Кот Василий"
-                >
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="field_errors">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <div class="form_row">
-            <label for="email">Email</label>
+            <label for="{{ form.email.id_for_label }}">Email</label>
 
             <div class="form_field">
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value="cat@example.com"
-                >
+                {{ form.email }}
+
+                {% if form.email.errors %}
+                    <div class="field_errors">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <div class="form_row">
-            <label for="avatar">Аватар</label>
+            <label for="{{ form.avatar.id_for_label }}">Аватар</label>
 
             <div class="form_field">
-                <input
-                    id="avatar"
-                    type="file"
-                    name="avatar"
-                >
+                {{ form.avatar }}
+
+                {% if form.avatar.errors %}
+                    <div class="field_errors">
+                        {{ form.avatar.errors }}
+                    </div>
+                {% endif %}
             </div>
         </div>
-
-
 
         <div class="form_actions">
             <button type="submit">Сохранить</button>

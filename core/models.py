@@ -9,6 +9,7 @@ class Profile(models.Model):
         related_name='profile',
         verbose_name='Пользователь',
     )
+
     avatar = models.ImageField(
         upload_to='avatars/',
         blank=True,
@@ -21,4 +22,4 @@ class Profile(models.Model):
         verbose_name_plural = 'Профили'
 
     def __str__(self):
-        return f'Профиль пользователя {self.user.username}'
+        return f'Профиль #{self.pk} пользователя #{self.user_id}'

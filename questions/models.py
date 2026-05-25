@@ -1,7 +1,25 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.urls import reverse
+
+
+class DefaultModel(models.Model):
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Создано в',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Обновлено в',
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Активно?',
+    )
+
+    class Meta:
+        abstract = True
 
 
 class Tag(models.Model):
@@ -26,12 +44,22 @@ class Tag(models.Model):
 
 
 class QuestionQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_active=True)
+
     def with_related(self):
         return (
             self
+            .active()
             .select_related('author')
             .prefetch_related('tags')
-            .annotate(answers_count=Count('answers', distinct=True))
+            .annotate(
+                answers_count=Count(
+                    'answers',
+                    filter=Q(answers__is_active=True),
+                    distinct=True,
+                )
+            )
         )
 
     def new(self):
@@ -49,10 +77,12 @@ class QuestionQuerySet(models.QuerySet):
         )
 
 
-class Question(models.Model):
+class Question(DefaultModel):
     author = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='questions',
         verbose_name='Автор',
     )
@@ -61,6 +91,7 @@ class Question(models.Model):
         verbose_name='Заголовок',
     )
     text = models.TextField(
+        max_length=4000,
         verbose_name='Текст',
     )
     tags = models.ManyToManyField(
@@ -73,14 +104,6 @@ class Question(models.Model):
         default=0,
         verbose_name='Рейтинг',
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата создания',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата обновления',
-    )
 
     objects = QuestionQuerySet.as_manager()
 
@@ -90,7 +113,7 @@ class Question(models.Model):
         ordering = ['-created_at', '-id']
 
     def __str__(self):
-        return self.title
+        return f'Вопрос #{self.pk}: {self.title}'
 
     def get_absolute_url(self):
         return reverse('questions:question', kwargs={'question_id': self.id})
@@ -100,7 +123,15 @@ class Question(models.Model):
         return self.rating
 
 
-class Answer(models.Model):
+class AnswerQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_active=True)
+
+    def with_related(self):
+        return self.active().select_related('question', 'author')
+
+
+class Answer(DefaultModel):
     question = models.ForeignKey(
         Question,
         on_delete=models.CASCADE,
@@ -109,11 +140,14 @@ class Answer(models.Model):
     )
     author = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='answers',
         verbose_name='Автор',
     )
     text = models.TextField(
+        max_length=4000,
         verbose_name='Текст ответа',
     )
     rating = models.IntegerField(
@@ -124,10 +158,8 @@ class Answer(models.Model):
         default=False,
         verbose_name='Правильный ответ',
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата создания',
-    )
+
+    objects = AnswerQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Ответ'
@@ -135,7 +167,7 @@ class Answer(models.Model):
         ordering = ['-created_at', '-id']
 
     def __str__(self):
-        return f'Ответ #{self.id} на вопрос #{self.question_id}'
+        return f'Ответ #{self.pk} на вопрос #{self.question_id}'
 
     @property
     def likes(self):
@@ -169,7 +201,7 @@ class QuestionLike(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания',
+        verbose_name='Создано в',
     )
 
     class Meta:
@@ -183,7 +215,7 @@ class QuestionLike(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user.username} → вопрос {self.question_id}: {self.value}'
+        return f'Лайк вопроса #{self.question_id} от пользователя #{self.user_id}: {self.value}'
 
 
 class AnswerLike(models.Model):
@@ -213,7 +245,7 @@ class AnswerLike(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания',
+        verbose_name='Создано в',
     )
 
     class Meta:
@@ -227,4 +259,4 @@ class AnswerLike(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user.username} → ответ {self.answer_id}: {self.value}'
+        return f'Лайк ответа #{self.answer_id} от пользователя #{self.user_id}: {self.value}'

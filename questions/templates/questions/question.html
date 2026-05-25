@@ -16,8 +16,13 @@
                 <span class="likes_count">{{ question.likes }}</span>
 
                 <div class="likes_buttons">
-                    <button type="button">▲</button>
-                    <button type="button">▼</button>
+                    {% if user.is_authenticated %}
+                        <button type="button">▲</button>
+                        <button type="button">▼</button>
+                    {% else %}
+                        <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▲</button>
+                        <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▼</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -48,39 +53,44 @@
 
     {% for answer in answers %}
 
-    <div class="answer_block">
+        <div class="answer_block" id="answer-{{ answer.id }}">
 
-        <div class="container_img_likes">
-            <div class="img_avatar">
-                <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар ответа">
-            </div>
+            <div class="container_img_likes">
+                <div class="img_avatar">
+                    <img src="{% static 'questions/img/e_cat.jpg' %}" alt="Аватар ответа">
+                </div>
 
-            <div class="likes">
-                <span class="likes_count">{{ answer.likes }}</span>
+                <div class="likes">
+                    <span class="likes_count">{{ answer.likes }}</span>
 
-                <div class="likes_buttons">
-                    <button type="button">▲</button>
-                    <button type="button">▼</button>
+                    <div class="likes_buttons">
+                        {% if user.is_authenticated %}
+                            <button type="button">▲</button>
+                            <button type="button">▼</button>
+                        {% else %}
+                            <button type="button" disabled title="Войдите, чтобы оценивать ответы">▲</button>
+                            <button type="button" disabled title="Войдите, чтобы оценивать ответы">▼</button>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+
+            <div class="answer_content">
+                <p>
+                    {{ answer.text }}
+                </p>
+
+                <label class="correct_label">
+                    <input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled>
+                    <span>Правильный ответ</span>
+                </label>
+            </div>
+
         </div>
-
-        <div class="answer_content">
-            <p>
-                {{ answer.text }}
-            </p>
-
-            <label class="correct_label">
-                <input type="checkbox" {% if answer.is_correct %}checked{% endif %}>
-                <span>Правильный ответ</span>
-            </label>
-        </div>
-
-    </div>
 
     {% empty %}
 
-    <p class="empty_text">Пока нет ни одного ответа к этому вопросу.</p>
+        <p class="empty_text">Пока нет ни одного ответа к этому вопросу.</p>
 
     {% endfor %}
 
@@ -89,15 +99,53 @@
     <div class="answer_form_block">
         <h2>Ваш ответ</h2>
 
-        <form class="answer_form">
-            <textarea
-                name="answer"
-                rows="6"
-                placeholder="Введите ваш ответ..."
-            ></textarea>
+        {% if user.is_authenticated %}
 
-            <button type="submit">Ответить</button>
-        </form>
+            <form class="answer_form" method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form_errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form_field">
+                    {{ form.text }}
+
+                    {% if form.text.errors %}
+                        <div class="field_errors">
+                            {{ form.text.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit">Ответить</button>
+            </form>
+
+        {% else %}
+
+            <p class="empty_text">
+                Чтобы оставить ответ, нужно
+                <a href="{% url 'core:login' %}?next={{ request.path }}">войти</a>
+                или
+                <a href="{% url 'core:signup' %}">зарегистрироваться</a>.
+            </p>
+
+            <form class="answer_form">
+                <textarea
+                    rows="6"
+                    placeholder="Войдите, чтобы написать ответ"
+                    disabled
+                    title="Войдите, чтобы написать ответ"
+                ></textarea>
+
+                <button type="button" disabled title="Войдите, чтобы отправить ответ">
+                    Ответить
+                </button>
+            </form>
+
+        {% endif %}
     </div>
 
 </div>
