@@ -1,7 +1,13 @@
 from django import forms
 from django.db import transaction
 
-from questions.models import Answer, Question, Tag
+from questions.models import (
+    Answer,
+    AnswerLike,
+    Question,
+    QuestionLike,
+    Tag,
+)
 
 
 class QuestionForm(forms.ModelForm):
@@ -137,3 +143,84 @@ class AnswerForm(forms.ModelForm):
             answer.save()
 
         return answer
+
+
+class QuestionLikeForm(forms.Form):
+    question_id = forms.IntegerField()
+    value = forms.ChoiceField(
+        choices=(
+            ('like', 'like'),
+            ('dislike', 'dislike'),
+        )
+    )
+
+    def clean_question_id(self):
+        question_id = self.cleaned_data['question_id']
+
+        try:
+            self.question = Question.objects.active().get(id=question_id)
+        except Question.DoesNotExist:
+            raise forms.ValidationError('Вопрос не найден.')
+
+        return question_id
+
+    def get_value(self):
+        if self.cleaned_data['value'] == 'like':
+            return QuestionLike.LIKE
+
+        return QuestionLike.DISLIKE
+
+
+class AnswerLikeForm(forms.Form):
+    answer_id = forms.IntegerField()
+    value = forms.ChoiceField(
+        choices=(
+            ('like', 'like'),
+            ('dislike', 'dislike'),
+        )
+    )
+
+    def clean_answer_id(self):
+        answer_id = self.cleaned_data['answer_id']
+
+        try:
+            self.answer = Answer.objects.active().get(id=answer_id)
+        except Answer.DoesNotExist:
+            raise forms.ValidationError('Ответ не найден.')
+
+        return answer_id
+
+    def get_value(self):
+        if self.cleaned_data['value'] == 'like':
+            return AnswerLike.LIKE
+
+        return AnswerLike.DISLIKE
+
+
+class CorrectAnswerForm(forms.Form):
+    question_id = forms.IntegerField()
+    answer_id = forms.IntegerField()
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        question_id = cleaned_data.get('question_id')
+        answer_id = cleaned_data.get('answer_id')
+
+        if not question_id or not answer_id:
+            return cleaned_data
+
+        try:
+            self.question = Question.objects.active().get(id=question_id)
+        except Question.DoesNotExist:
+            raise forms.ValidationError('Вопрос не найден.')
+
+        try:
+            self.answer = Answer.objects.active().get(
+                id=answer_id,
+                question=self.question,
+            )
+        except Answer.DoesNotExist:
+            raise forms.ValidationError('Ответ не найден.')
+
+        return cleaned_data

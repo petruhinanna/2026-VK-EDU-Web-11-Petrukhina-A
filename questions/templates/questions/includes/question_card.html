@@ -13,8 +13,27 @@
 
             <div class="likes_buttons">
                 {% if user.is_authenticated %}
-                    <button type="button">▲</button>
-                    <button type="button">▼</button>
+                    <button
+                        type="button"
+                        class="js-question-vote {% if question.user_vote == 1 %}vote_active{% endif %}"
+                        data-url="{% url 'questions:question_like' %}"
+                        data-question-id="{{ question.id }}"
+                        data-value="like"
+                        title="Поставить лайк"
+                    >
+                        ▲
+                    </button>
+
+                    <button
+                        type="button"
+                        class="js-question-vote {% if question.user_vote == -1 %}vote_active{% endif %}"
+                        data-url="{% url 'questions:question_like' %}"
+                        data-question-id="{{ question.id }}"
+                        data-value="dislike"
+                        title="Поставить дизлайк"
+                    >
+                        ▼
+                    </button>
                 {% else %}
                     <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▲</button>
                     <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▼</button>

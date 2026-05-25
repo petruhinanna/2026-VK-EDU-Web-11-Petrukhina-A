@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
@@ -7,6 +9,9 @@ from core.models import Profile
 
 
 User = get_user_model()
+
+MAX_AVATAR_SIZE = 2 * 1024 * 1024
+ALLOWED_AVATAR_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
 
 
 class LoginForm(forms.Form):
@@ -195,6 +200,26 @@ class ProfileForm(forms.Form):
             raise forms.ValidationError('Пользователь с таким email уже существует.')
 
         return email
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+
+        if not avatar:
+            return avatar
+
+        extension = Path(avatar.name).suffix.lower()
+
+        if extension not in ALLOWED_AVATAR_EXTENSIONS:
+            raise forms.ValidationError(
+                'Можно загрузить только изображения JPG, PNG, GIF или WEBP.'
+            )
+
+        if avatar.size > MAX_AVATAR_SIZE:
+            raise forms.ValidationError(
+                'Размер аватарки не должен превышать 2 МБ.'
+            )
+
+        return avatar
 
     def save(self):
         user = self.user

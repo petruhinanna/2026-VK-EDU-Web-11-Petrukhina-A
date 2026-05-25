@@ -656,4 +656,9 @@ textarea.form_input {
     margin-right: 0;
     margin-bottom: 15px;
   }
+  .vote_active {
+  background: #4b9e40;
+  color: white;
+  border-color: #4b9e40;
+}
 }

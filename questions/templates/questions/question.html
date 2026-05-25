@@ -17,8 +17,27 @@
 
                 <div class="likes_buttons">
                     {% if user.is_authenticated %}
-                        <button type="button">▲</button>
-                        <button type="button">▼</button>
+                        <button
+                            type="button"
+                            class="js-question-vote {% if question.user_vote == 1 %}vote_active{% endif %}"
+                            data-url="{% url 'questions:question_like' %}"
+                            data-question-id="{{ question.id }}"
+                            data-value="like"
+                            title="Поставить лайк"
+                        >
+                            ▲
+                        </button>
+
+                        <button
+                            type="button"
+                            class="js-question-vote {% if question.user_vote == -1 %}vote_active{% endif %}"
+                            data-url="{% url 'questions:question_like' %}"
+                            data-question-id="{{ question.id }}"
+                            data-value="dislike"
+                            title="Поставить дизлайк"
+                        >
+                            ▼
+                        </button>
                     {% else %}
                         <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▲</button>
                         <button type="button" disabled title="Войдите, чтобы оценивать вопросы">▼</button>
@@ -65,8 +84,27 @@
 
                     <div class="likes_buttons">
                         {% if user.is_authenticated %}
-                            <button type="button">▲</button>
-                            <button type="button">▼</button>
+                            <button
+                                type="button"
+                                class="js-answer-vote {% if answer.user_vote == 1 %}vote_active{% endif %}"
+                                data-url="{% url 'questions:answer_like' %}"
+                                data-answer-id="{{ answer.id }}"
+                                data-value="like"
+                                title="Поставить лайк"
+                            >
+                                ▲
+                            </button>
+
+                            <button
+                                type="button"
+                                class="js-answer-vote {% if answer.user_vote == -1 %}vote_active{% endif %}"
+                                data-url="{% url 'questions:answer_like' %}"
+                                data-answer-id="{{ answer.id }}"
+                                data-value="dislike"
+                                title="Поставить дизлайк"
+                            >
+                                ▼
+                            </button>
                         {% else %}
                             <button type="button" disabled title="Войдите, чтобы оценивать ответы">▲</button>
                             <button type="button" disabled title="Войдите, чтобы оценивать ответы">▼</button>
@@ -81,7 +119,24 @@
                 </p>
 
                 <label class="correct_label">
-                    <input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled>
+                    {% if user.is_authenticated and question.author_id == user.id %}
+                        <input
+                            type="checkbox"
+                            class="js-correct-answer"
+                            data-url="{% url 'questions:correct_answer' %}"
+                            data-question-id="{{ question.id }}"
+                            data-answer-id="{{ answer.id }}"
+                            {% if answer.is_correct %}checked{% endif %}
+                        >
+                    {% else %}
+                        <input
+                            type="checkbox"
+                            {% if answer.is_correct %}checked{% endif %}
+                            disabled
+                            title="Только автор вопроса может выбрать правильный ответ"
+                        >
+                    {% endif %}
+
                     <span>Правильный ответ</span>
                 </label>
             </div>
