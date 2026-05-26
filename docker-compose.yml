@@ -13,6 +13,7 @@ services:
       - ENV_FILE=.env.docker
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:16
@@ -26,6 +27,50 @@ services:
     ports:
       - "5432:5432"
 
-volumes:
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: celery -A application worker -l info
+    volumes:
+      - .:/app
+      - media_volume:/app/media
+    env_file:
+      - .env.docker
+    environment:
+      - ENV_FILE=.env.docker
+    depends_on:
+      - db
+      - redis
+
+  celerybeat:
+    build: .
+    command: celery -A application beat -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env.docker
+    environment:
+      - ENV_FILE=.env.docker
+    depends_on:
+      - db
+      - redis
+      - celery
+
+  volumes:
   postgres_data:
   media_volume:
+  maildev:
+    image: maildev/maildev
+    restart: always
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    depends_on:
+      - db
+      - redis
+      - maildev

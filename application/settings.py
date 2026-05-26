@@ -163,3 +163,48 @@ INTERNAL_IPS = [
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+REDIS_CACHE_DB = os.getenv('REDIS_CACHE_DB', '1')
+REDIS_BROKER_DB = os.getenv('REDIS_BROKER_DB', '2')
+REDIS_BEAT_DB = os.getenv('REDIS_BEAT_DB', '3')
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_DB}',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'TIMEOUT': 60 * 10,
+    }
+}
+
+
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_BROKER_DB}'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_BEAT_DB}'
+
+CELERY_BEAT_SCHEDULER = 'redbeat.RedBeatScheduler'
+CELERY_REDBEAT_REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_BEAT_DB}'
+
+CELERY_TASK_ALWAYS_EAGER = get_bool_env('CELERY_TASK_ALWAYS_EAGER', False)
+
+CELERY_BEAT_SCHEDULE = {
+    'update-popular-tags-cache': {
+        'task': 'questions.tasks.update_popular_tags_cache',
+        'schedule': 60 * 10,
+    },
+    'update-best-users-cache': {
+        'task': 'questions.tasks.update_best_users_cache',
+        'schedule': 60 * 10,
+    },
+}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '1025'))
+EMAIL_USE_TLS = get_bool_env('EMAIL_USE_TLS', False)
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@kittens.local')
+
+SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000')

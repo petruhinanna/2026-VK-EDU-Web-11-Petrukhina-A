@@ -14,6 +14,7 @@ from questions.forms import (
     QuestionLikeForm,
 )
 from questions.models import Answer, AnswerLike, Question, QuestionLike, Tag
+from questions.tasks import send_new_answer_email
 from questions.utils import paginate
 
 
@@ -131,6 +132,9 @@ def question_detail(request, question_id):
 
         if form.is_valid():
             answer = form.save()
+
+            send_new_answer_email.delay(answer.id)
+
             return redirect(
                 f'{question.get_absolute_url()}?page=1#answer-{answer.id}'
             )
