@@ -20,14 +20,18 @@
         </h1>
 
         <div class="search_box">
-            <form>
+            <form class="search_form" autocomplete="off">
                 <input
                     type="search"
-                    name="text"
+                    name="q"
                     class="search"
+                    id="search-input"
+                    data-url="{% url 'questions:search_suggestions' %}"
                     placeholder="Какой у вас возник вопрос?"
                 >
                 <input type="submit" class="submit" value="Найти!">
+
+                <div class="search_suggestions" id="search-suggestions"></div>
             </form>
         </div>
 

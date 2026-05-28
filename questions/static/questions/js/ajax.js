@@ -147,3 +147,97 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function debounce(callback, delay) {
+    let timer = null;
+
+    return function (...args) {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            callback.apply(this, args);
+        }, delay);
+    };
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('#search-input');
+    const suggestionsBox = document.querySelector('#search-suggestions');
+
+    if (!searchInput || !suggestionsBox) {
+        return;
+    }
+
+    function clearSuggestions() {
+        suggestionsBox.innerHTML = '';
+        suggestionsBox.classList.remove('search_suggestions_visible');
+    }
+
+    function renderSuggestions(results) {
+        suggestionsBox.innerHTML = '';
+
+        if (!results.length) {
+            clearSuggestions();
+            return;
+        }
+
+        results.forEach((item) => {
+            const link = document.createElement('a');
+
+            link.href = item.url;
+            link.textContent = item.title;
+            link.classList.add('search_suggestion_item');
+
+            suggestionsBox.appendChild(link);
+        });
+
+        suggestionsBox.classList.add('search_suggestions_visible');
+    }
+
+    const loadSuggestions = debounce(() => {
+        const query = searchInput.value.trim();
+
+        if (query.length < 2) {
+            clearSuggestions();
+            return;
+        }
+
+        const url = `${searchInput.dataset.url}?q=${encodeURIComponent(query)}`;
+
+        fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (!data.ok) {
+                    clearSuggestions();
+                    return;
+                }
+
+                renderSuggestions(data.results);
+            })
+            .catch(() => {
+                clearSuggestions();
+            });
+    }, 400);
+
+    searchInput.addEventListener('input', loadSuggestions);
+
+    searchInput.closest('form').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const firstSuggestion = suggestionsBox.querySelector('a');
+
+        if (firstSuggestion) {
+            window.location.href = firstSuggestion.href;
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.search_box')) {
+            clearSuggestions();
+        }
+    });
+});

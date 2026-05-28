@@ -14,4 +14,5 @@ urlpatterns = [
     path('ajax/question-like/', views.question_like, name='question_like'),
     path('ajax/answer-like/', views.answer_like, name='answer_like'),
     path('ajax/correct-answer/', views.mark_correct_answer, name='correct_answer'),
+    path('ajax/search/', views.search_suggestions, name='search_suggestions'),
 ]

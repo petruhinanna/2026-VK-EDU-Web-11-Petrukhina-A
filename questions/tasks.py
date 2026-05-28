@@ -18,6 +18,20 @@ POPULAR_TAGS_CACHE_TIMEOUT = 60 * 60
 BEST_USERS_CACHE_TIMEOUT = 60 * 60
 
 
+def safe_cache_get(key):
+    try:
+        return cache.get(key)
+    except Exception:
+        return None
+
+
+def safe_cache_set(key, value, timeout):
+    try:
+        cache.set(key, value, timeout)
+    except Exception:
+        pass
+
+
 def get_popular_tags_from_db():
     three_months_ago = timezone.now() - timedelta(days=90)
 
@@ -75,7 +89,7 @@ def get_best_users_from_db():
 def update_popular_tags_cache():
     popular_tags = get_popular_tags_from_db()
 
-    cache.set(
+    safe_cache_set(
         POPULAR_TAGS_CACHE_KEY,
         popular_tags,
         POPULAR_TAGS_CACHE_TIMEOUT,
@@ -88,7 +102,7 @@ def update_popular_tags_cache():
 def update_best_users_cache():
     best_users = get_best_users_from_db()
 
-    cache.set(
+    safe_cache_set(
         BEST_USERS_CACHE_KEY,
         best_users,
         BEST_USERS_CACHE_TIMEOUT,
@@ -98,12 +112,12 @@ def update_best_users_cache():
 
 
 def get_popular_tags():
-    popular_tags = cache.get(POPULAR_TAGS_CACHE_KEY)
+    popular_tags = safe_cache_get(POPULAR_TAGS_CACHE_KEY)
 
     if popular_tags is None:
         popular_tags = get_popular_tags_from_db()
 
-        cache.set(
+        safe_cache_set(
             POPULAR_TAGS_CACHE_KEY,
             popular_tags,
             POPULAR_TAGS_CACHE_TIMEOUT,
@@ -113,12 +127,12 @@ def get_popular_tags():
 
 
 def get_best_users():
-    best_users = cache.get(BEST_USERS_CACHE_KEY)
+    best_users = safe_cache_get(BEST_USERS_CACHE_KEY)
 
     if best_users is None:
         best_users = get_best_users_from_db()
 
-        cache.set(
+        safe_cache_set(
             BEST_USERS_CACHE_KEY,
             best_users,
             BEST_USERS_CACHE_TIMEOUT,

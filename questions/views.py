@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.db.models import F
+from django.db import connection, transaction
+from django.db.models import F, Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -350,5 +350,62 @@ def mark_correct_answer(request):
         {
             'ok': True,
             'correct_answer_id': answer.id,
+        }
+    )
+def search_suggestions(request):
+    query = request.GET.get('q', '').strip()
+
+    if len(query) < 2:
+        return JsonResponse(
+            {
+                'ok': True,
+                'results': [],
+            }
+        )
+
+    questions = Question.objects.active()
+
+    if connection.vendor == 'postgresql':
+        from django.contrib.postgres.search import (
+            SearchQuery,
+            SearchRank,
+            SearchVector,
+        )
+
+        vector = SearchVector('title', 'text', config='simple')
+        search_query = SearchQuery(
+            query,
+            config='simple',
+            search_type='websearch',
+        )
+
+        questions = (
+            questions
+            .annotate(search=vector)
+            .annotate(rank=SearchRank(vector, search_query))
+            .filter(search=search_query)
+            .order_by('-rank', '-created_at')[:10]
+        )
+    else:
+        questions = (
+            questions
+            .filter(
+                Q(title__icontains=query) | Q(text__icontains=query)
+            )
+            .order_by('-created_at')[:10]
+        )
+
+    results = [
+        {
+            'title': question.title,
+            'url': question.get_absolute_url(),
+        }
+        for question in questions
+    ]
+
+    return JsonResponse(
+        {
+            'ok': True,
+            'results': results,
         }
     )
