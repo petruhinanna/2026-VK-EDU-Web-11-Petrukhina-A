@@ -15,36 +15,33 @@
 
 ## Запуск локально
 
-Создать виртуальное окружение:
-
 ```bash
+
+Создать `.env.local` по примеру `.env.example`.
 python -m venv .venv
-```
-
-Активировать виртуальное окружение в Windows PowerShell:
-
-```bash
 .venv\Scripts\Activate.ps1
-```
-
-Установить зависимости:
-
-```bash
 pip install -r requirements.txt
-```
+python manage.py migrate
+python manage.py fill_db 10
 
-Запустить сервер:
+Запустить сервисы:
+docker start redis-local
+docker start maildev-local
 
-```bash
+Если контейнеров ещё нет:
+docker run --name redis-local -p 6379:6379 -d redis:7
+docker run --name maildev-local -p 1080:1080 -p 1025:1025 -d maildev/maildev
+
+В отдельных терминалах запустить:
+celery -A application worker -l info -P solo
+celery -A application beat -l info
 python manage.py runserver
+
+Сайт: http://127.0.0.1:8000/
+Maildev: http://127.0.0.1:1080/
+
+
 ```
-
-Открыть сайт:
-
-```text
-http://127.0.0.1:8000/
-```
-
 
 
 ## Что сделано
@@ -112,9 +109,8 @@ http://127.0.0.1:8000/
 - добавлены celery-задачи для обновления кеша популярных тегов и лучших пользователей;
 - правая колонка получает данные из кеша с fallback в БД;
 - настроена отправка email-уведомлений автору вопроса при новом ответе через celery-задачу.
+- добавлен полнотекстовый поиск по заголовку и тексту вопроса;
 
 Не реализовано:
 
 - realtime через Centrifugo;
-- полнотекстовый поиск с подсказками.
-- 
