@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 import os
 
@@ -106,18 +104,18 @@ if DB_ENGINE == 'postgresql':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME', 'qa_db'),
-            'USER': os.getenv('DB_USER', 'qa_user'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'qa_password'),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '5432'),
+            'NAME': os.getenv('POSTGRES_DB', 'qa_db'),
+            'USER': os.getenv('POSTGRES_USER', 'qa_user'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'qa_password'),
+            'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+            'PORT': os.getenv('POSTGRES_PORT', '5432'),
         }
     }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / os.getenv('DB_NAME', 'db.sqlite3'),
+            'NAME': BASE_DIR / os.getenv('POSTGRES_DB', 'db.sqlite3'),
         }
     }
 
@@ -208,3 +206,6 @@ EMAIL_USE_TLS = get_bool_env('EMAIL_USE_TLS', False)
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@kittens.local')
 
 SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000')
+
+POPULAR_TAGS_CACHE_TIMEOUT = int(os.getenv('POPULAR_TAGS_CACHE_TIMEOUT', str(60 * 60)))
+BEST_USERS_CACHE_TIMEOUT = int(os.getenv('BEST_USERS_CACHE_TIMEOUT', str(60 * 60)))

@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.db import transaction
 
 from core.models import Profile
 
@@ -135,14 +136,15 @@ class SignupForm(forms.Form):
         return cleaned_data
 
     def save(self):
-        user = User.objects.create_user(
-            username=self.cleaned_data['username'],
-            email=self.cleaned_data['email'],
-            password=self.cleaned_data['password'],
-            first_name=self.cleaned_data['first_name'],
-        )
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=self.cleaned_data['username'],
+                email=self.cleaned_data['email'],
+                password=self.cleaned_data['password'],
+                first_name=self.cleaned_data['first_name'],
+            )
 
-        Profile.objects.get_or_create(user=user)
+            Profile.objects.get_or_create(user=user)
 
         return user
 
@@ -224,15 +226,16 @@ class ProfileForm(forms.Form):
     def save(self):
         user = self.user
 
-        user.username = self.cleaned_data['username']
-        user.email = self.cleaned_data['email']
-        user.save()
+        with transaction.atomic():
+            user.username = self.cleaned_data['username']
+            user.email = self.cleaned_data['email']
+            user.save()
 
-        profile, _ = Profile.objects.get_or_create(user=user)
+            profile, _ = Profile.objects.get_or_create(user=user)
 
-        avatar = self.cleaned_data.get('avatar')
-        if avatar:
-            profile.avatar = avatar
-            profile.save()
+            avatar = self.cleaned_data.get('avatar')
+            if avatar:
+                profile.avatar = avatar
+                profile.save()
 
         return user

@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from celery import shared_task
@@ -11,17 +12,20 @@ from django.utils import timezone
 from questions.models import Answer, Tag
 
 
+logger = logging.getLogger(__name__)
+
 POPULAR_TAGS_CACHE_KEY = 'sidebar:popular_tags'
 BEST_USERS_CACHE_KEY = 'sidebar:best_users'
 
-POPULAR_TAGS_CACHE_TIMEOUT = 60 * 60
-BEST_USERS_CACHE_TIMEOUT = 60 * 60
+POPULAR_TAGS_CACHE_TIMEOUT = settings.POPULAR_TAGS_CACHE_TIMEOUT
+BEST_USERS_CACHE_TIMEOUT = settings.BEST_USERS_CACHE_TIMEOUT
 
 
 def safe_cache_get(key):
     try:
         return cache.get(key)
-    except Exception:
+    except Exception as exc:
+        logger.error('Cache get failed for key %r: %s', key, exc)
         return None
 
 
