@@ -1,0 +1,22 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="H1">
+    <h2 class="new_quest">Тэг: {{ tag.name }}</h2>
+    <a class="pop_quest" href="{% url 'questions:index' %}">Все вопросы</a>
+</div>
+
+{% for question in questions %}
+
+    {% include 'questions/includes/question_card.html' %}
+
+{% empty %}
+
+    <p class="empty_text">Пока нет ни одного вопроса с этим тегом.</p>
+
+{% endfor %}
+
+{% include 'questions/includes/pagination.html' %}
+
+{% endblock %}

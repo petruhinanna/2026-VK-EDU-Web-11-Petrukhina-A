@@ -1,0 +1,70 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="ask_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Новый вопрос</h2>
+    </div>
+
+    <form class="ask_form" method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form_errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="form_row">
+            <label for="{{ form.title.id_for_label }}">Заголовок</label>
+
+            <div class="form_field">
+                {{ form.title }}
+
+                {% if form.title.errors %}
+                    <div class="field_errors">
+                        {{ form.title.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.text.id_for_label }}">Текст</label>
+
+            <div class="form_field">
+                {{ form.text }}
+
+                {% if form.text.errors %}
+                    <div class="field_errors">
+                        {{ form.text.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.tags.id_for_label }}">Теги</label>
+
+            <div class="form_field">
+                {{ form.tags }}
+
+                {% if form.tags.errors %}
+                    <div class="field_errors">
+                        {{ form.tags.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <button type="submit">Спросить!</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

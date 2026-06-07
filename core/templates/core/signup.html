@@ -1,0 +1,103 @@
+{% extends 'questions/layout/base.html' %}
+
+{% block content %}
+
+<div class="form_page">
+
+    <div class="H1">
+        <h2 class="new_quest">Регистрация</h2>
+    </div>
+
+    <form class="user_form" method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form_errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="form_row">
+            <label for="{{ form.username.id_for_label }}">Логин</label>
+
+            <div class="form_field">
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="field_errors">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+
+            <div class="form_field">
+                {{ form.email }}
+
+                {% if form.email.errors %}
+                    <div class="field_errors">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.first_name.id_for_label }}">Имя</label>
+
+            <div class="form_field">
+                {{ form.first_name }}
+
+                {% if form.first_name.errors %}
+                    <div class="field_errors">
+                        {{ form.first_name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.password.id_for_label }}">Пароль</label>
+
+            <div class="form_field">
+                {{ form.password }}
+
+                {% if form.password.errors %}
+                    <div class="field_errors">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_row">
+            <label for="{{ form.password_repeat.id_for_label }}">Повтор</label>
+
+            <div class="form_field">
+                {{ form.password_repeat }}
+
+                {% if form.password_repeat.errors %}
+                    <div class="field_errors">
+                        {{ form.password_repeat.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <button type="submit">Зарегистрироваться</button>
+        </div>
+
+    </form>
+
+    <p class="form_link">
+        Уже есть аккаунт?
+        <a href="{% url 'core:login' %}">Войти</a>
+    </p>
+
+</div>
+
+{% endblock %}
